@@ -1,12 +1,7 @@
 pipeline {
     agent any
 
-    tools {
-        maven "M3"
-    }
-
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -21,7 +16,7 @@ pipeline {
 
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: "target/*.jar", fingerprint: true
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
