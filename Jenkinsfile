@@ -4,7 +4,7 @@ pipeline {
 
     tools {
         // Le nom doit correspondre au Maven configuré dans Jenkins
-        maven "MAVEN_HOME"
+        maven "M2_HOME"
         jdk "JDK17"
     }
 
