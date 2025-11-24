@@ -21,6 +21,7 @@ public class Bloc {
     long capaciteBloc;
 @ManyToOne()
     Foyer foye;
+/////////////////////////////
 
 @OneToMany(mappedBy ="blc")
 Set<Chambre> chambres;

@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/tonUser/tonRepo.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo "Building project..."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying..."
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext (
+                to: 'labbaouisalim749@gmail.com',
+                subject: "Build SUCCESS",
+                body: "Le pipeline a réussi."
+            )
+        }
+        failure {
+            emailext (
+                to: 'labbaouisalim749@gmail.com',
+                subject: "Build FAILED",
+                body: "Le pipeline a échoué."
+            )
+        }
+    }
+}
