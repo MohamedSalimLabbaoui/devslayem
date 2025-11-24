@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    // AJOUTEZ CETTE SECTION TRIGGERS
+    triggers {
+        pollSCM('')  // Vide = déclenchement par webhook uniquement
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,9 +23,6 @@ pipeline {
             steps {
                 echo "Running tests..."
             }
-        }
-
-
         }
     }
 
