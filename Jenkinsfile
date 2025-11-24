@@ -4,20 +4,43 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/tonUser/tonRepo.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh "mvn clean package -DskipTests"
+                echo "Building project..."
             }
         }
 
-        stage('Archive') {
+        stage('Test') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                echo "Running tests..."
             }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying..."
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext (
+                to: 'labbaouisalim749@gmail.com',
+                subject: "Build SUCCESS",
+                body: "Le pipeline a réussi."
+            )
+        }
+        failure {
+            emailext (
+                to: 'labbaouisalim749@gmail.com',
+                subject: "Build FAILED",
+                body: "Le pipeline a échoué."
+            )
         }
     }
 }
