@@ -1,24 +1,16 @@
 pipeline {
     agent any
 
-    // SUPPRIMEZ la section triggers ou utilisez :
-    triggers {
-        // RIEN ici - le webhook GitHub suffit
-        // OU si vous voulez être explicite :
-        githubPush()
-    }
-
     tools {
-        maven 'maven3'
-        jdk 'JDK17'
+        maven 'maven3'    // Nouveau nom
+        jdk 'JDK17'       // Nouveau nom
     }
 
     stages {
         stage('Checkout') {
             steps {
                 echo "📥 Cloning repository..."
-                git branch: 'main',
-                url: 'https://github.com/MohamedSalimLabbaoui/devslayem.git'
+                checkout scm
             }
         }
 
@@ -31,6 +23,9 @@ pipeline {
     }
 
     post {
+        always {
+            echo "🎉 Build completed!"
+        }
         success {
             emailext(
                 to: 'labbaouisalim749@gmail.com',
