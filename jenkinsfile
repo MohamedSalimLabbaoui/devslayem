@@ -24,21 +24,9 @@ pipeline {
 
     post {
         always {
-            echo "🎉 Build completed!"
-        }
-        success {
-            emailext(
-                to: 'labbaouisalim749@gmail.com',
-                subject: "✅ SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Le build a réussi! Voir: ${env.BUILD_URL}"
-            )
-        }
-        failure {
-            emailext(
-                to: 'labbaouisalim749@gmail.com',
-                subject: "❌ FAILED - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Le build a échoué! Voir: ${env.BUILD_URL}"
-            )
+            mail to: 'labbaouisalim749@gmail.com',
+                 subject: "Pipeline finished: ${currentBuild.currentResult}",
+                 body: "Job finished with result: ${currentBuild.currentResult}"
         }
     }
 }
