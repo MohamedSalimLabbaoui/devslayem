@@ -1,44 +1,40 @@
 pipeline {
     agent any
 
-    // AJOUTEZ CETTE SECTION TRIGGERS
-    triggers {
-        pollSCM('')  // Vide = déclenchement par webhook uniquement
+    tools {
+        maven 'M2_HOME'
+        jdk 'JAVA_HOME'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/MohamedSalimLabbaoui/devslayem.git'
+                git branch: 'main', url: 'https://github.com/tonUser/tonRepo.git'
             }
         }
 
         stage('Build') {
             steps {
-                echo "Building project..."
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo "Running tests..."
+                echo "🔨 Build du projet..."
+                sh 'mvn clean install -DskipTests'
             }
         }
     }
 
     post {
         success {
-            emailext (
+            emailext(
                 to: 'labbaouisalim749@gmail.com',
-                subject: "Build SUCCESS",
-                body: "Le pipeline a réussi."
+                subject: "✔ SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Le build a réussi."
             )
         }
         failure {
-            emailext (
+            emailext(
                 to: 'labbaouisalim749@gmail.com',
-                subject: "Build FAILED",
-                body: "Le pipeline a échoué."
+                subject: "❌ FAILED - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Le build a échoué."
             )
         }
     }
