@@ -1,14 +1,22 @@
 pipeline {
     agent any
 
+    // SUPPRIMEZ la section triggers ou utilisez :
+    triggers {
+        // RIEN ici - le webhook GitHub suffit
+        // OU si vous voulez être explicite :
+        githubPush()
+    }
+
     tools {
-        maven 'maven3'  // Remplacer par votre nom Maven
-        jdk 'JDK17'          // Remplacer par votre nom JDK
+        maven 'maven3'
+        jdk 'JDK17'
     }
 
     stages {
         stage('Checkout') {
             steps {
+                echo "📥 Cloning repository..."
                 git branch: 'main',
                 url: 'https://github.com/MohamedSalimLabbaoui/devslayem.git'
             }
@@ -16,7 +24,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "🔨 Build du projet..."
+                echo "🔨 Building project..."
                 sh 'mvn clean install -DskipTests'
             }
         }
@@ -26,15 +34,15 @@ pipeline {
         success {
             emailext(
                 to: 'labbaouisalim749@gmail.com',
-                subject: "✔ SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Le build a réussi. Voir: ${env.BUILD_URL}"
+                subject: "✅ SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Le build a réussi! Voir: ${env.BUILD_URL}"
             )
         }
         failure {
             emailext(
                 to: 'labbaouisalim749@gmail.com',
                 subject: "❌ FAILED - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Le build a échoué. Voir: ${env.BUILD_URL}"
+                body: "Le build a échoué! Voir: ${env.BUILD_URL}"
             )
         }
     }
