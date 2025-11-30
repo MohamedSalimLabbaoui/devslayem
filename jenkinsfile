@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'M2_HOME'  // Remplacer par votre nom Maven
+        maven 'MAVEN_HOME'  // Remplacer par votre nom Maven
         jdk 'JAVA_HOME'          // Remplacer par votre nom JDK
     }
 
