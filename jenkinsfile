@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven-3.9.5'  // Remplacer par votre nom Maven
-        jdk 'jdk17'          // Remplacer par votre nom JDK
+        maven 'M2_HOME'  // Remplacer par votre nom Maven
+        jdk 'JAVA_HOME'          // Remplacer par votre nom JDK
     }
 
     stages {
